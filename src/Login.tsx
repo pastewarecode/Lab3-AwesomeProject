@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { TRootStackParamList } from './App';
 import CryptoJS from 'crypto-js';
-import userData from '../src/data/users.json'; // Import the JSON file with hashed passwords
+import userData from '../src/data/users.json';
 
 export interface IUser {
 	username: string;
