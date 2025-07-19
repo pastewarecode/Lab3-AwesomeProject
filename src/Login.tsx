@@ -37,6 +37,21 @@ export default function Login(props: TProps) {
 	const users: IStoredUser[] = userData;
 
 	function login() {
+		/*
+		* ERROR: No input validation
+		*
+		* FIX: Created input validation for user inputs
+		*/
+		if (!/^[a-zA-Z0-9]{3,20}$/.test(username)) {
+			Alert.alert('Invalid Username', 'Username must be alphanumeric and 3–20 characters long.');
+			return;
+		}
+
+		if (password.length < 6) {
+			Alert.alert('Invalid Password', 'Password must be at least 6 characters long.');
+			return;
+		}
+
 		const hashedInputPassword = CryptoJS.SHA256(password).toString();
 
 		const matchedUser = users.find(
@@ -46,7 +61,6 @@ export default function Login(props: TProps) {
 		);
 
 		if (matchedUser) {
-			// Pass a cleaned-up user object (without password hash)
 			props.onLogin({ username: matchedUser.username, password: '' });
 		} else {
 			Alert.alert('Error', 'Username or password is invalid.');

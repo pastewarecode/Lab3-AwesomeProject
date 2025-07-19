@@ -19,6 +19,8 @@ interface IState {
 	newNoteEquation: string;
 }
 
+//modified Tprops
+//type TProps = NativeStackScreenProps<TRootStackParamList, 'Notes'>;
 type TProps = NativeStackScreenProps<TRootStackParamList, 'Notes'> & IProps;
 
 export default class Notes extends React.Component<TProps, IState> {
@@ -47,7 +49,10 @@ export default class Notes extends React.Component<TProps, IState> {
 	}
 
 	private async getStoredNotes(): Promise<INote[]> {
-		const suffix = this.props.route.params.user.username + '-' + this.props.route.params.user.password;
+		//modified by removing user.password for vulnerabilities with keeping password in storage keys and params
+		const username = this.props.route.params.username;
+		const suffix = 'notes-' + username;
+		//const suffix = this.props.route.params.user.username + '-' + this.props.route.params.user.password;
 
 		const value = await AsyncStorage.getItem('notes-' + suffix);
 
@@ -59,7 +64,10 @@ export default class Notes extends React.Component<TProps, IState> {
 	}
 
 	private async storeNotes(notes: INote[]) {
-		const suffix = this.props.route.params.user.username + '-' + this.props.route.params.user.password;
+		//modified by removing user.password for vulnerabilities with keeping password in storage keys and params
+		const username = this.props.route.params.username;
+		const suffix = 'notes-' + username;
+		//const suffix = this.props.route.params.user.username + '-' + this.props.route.params.user.password;
 
 		const jsonValue = JSON.stringify(notes);
 		await AsyncStorage.setItem('notes-' + suffix, jsonValue);
@@ -97,7 +105,7 @@ export default class Notes extends React.Component<TProps, IState> {
 				<ScrollView contentInsetAdjustmentBehavior="automatic">
 					<View style={styles.container}>
 						<Text style={styles.title}>
-							{'Math Notes: ' + this.props.route.params.user.username}
+							{'Math Notes: ' + this.props.route.params.username}
 						</Text>
 						<TextInput
 							style={styles.titleInput}

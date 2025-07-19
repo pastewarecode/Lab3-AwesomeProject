@@ -22,21 +22,40 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Notes from './Notes';
 import Login, { IUser } from './Login';
 
+//modified type to only take username
 export type TRootStackParamList = {
-    Login: undefined;
-    Notes: {
-        user: IUser;
-    };
+  Login: undefined;
+  Notes: {
+    username: string;
+  };
 };
+// export type TRootStackParamList = {
+//     Login: undefined;
+//     Notes: {
+//         user: IUser;
+//     };
+// };
 
 function App() {
-    const [signedInAs, setSignedInAs] = React.useState<IUser | false>(false);
+    //modified to adapt to new rtpe TRootStackParamList
+    const [signedInAs, setSignedInAs] = React.useState<string | false>(false);
+    //const [signedInAs, setSignedInAs] = React.useState<IUser | false>(false);
 
     const Stack = createNativeStackNavigator<TRootStackParamList>();
 
     return (
         <NavigationContainer>
+            {/* Modified so we are only passing in username and not (user) which includes users password */}
             <Stack.Navigator>
+                {!signedInAs ? (
+                    <Stack.Screen name="Login">
+                    {(props) => <Login {...props} onLogin={(user) => setSignedInAs(user.username)} />}
+                    </Stack.Screen>
+                ) : (
+                    <Stack.Screen name="Notes" component={Notes} initialParams={{ username: signedInAs }} />
+                )}
+            </Stack.Navigator>
+            {/* <Stack.Navigator>
                 {
                     !signedInAs ?
                         <Stack.Screen name="Login">
@@ -44,7 +63,7 @@ function App() {
                         </Stack.Screen> :
                         <Stack.Screen name="Notes" component={Notes} initialParams={{ user: signedInAs }} />
                 }
-            </Stack.Navigator>
+            </Stack.Navigator> */}
         </NavigationContainer>
     );
 }

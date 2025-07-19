@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
+import { evaluate } from 'mathjs';
 
 interface IProps {
 	title: string;
@@ -8,7 +9,14 @@ interface IProps {
 
 function Note(props: IProps) {
 	function evaluateEquation() {
-		const result = eval(props.text);
+		
+		/*
+		* ERROR: Using eval() is unsafe because it excecutes the users input as actual JavaScript code, allowing for code injection vulnerability.
+		*
+		* FIX: Download mathjs library and use 'evalute()'
+		*/
+		//const result = eval(props.text);
+		const result = evaluate(props.text)
 
 		Alert.alert('Result', 'Result: ' + result);
 	}
