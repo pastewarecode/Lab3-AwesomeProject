@@ -87,10 +87,20 @@ export default class Notes extends React.Component<TProps, IState> {
 			text: this.state.newNoteEquation
 		};
 
-		if (note.title === '' || note.text === '') {
-			Alert.alert('Error', 'Title and equation cannot be empty.');
+		// Proper input validation rather than just checking if title and text box are empty.
+		if (!/^[a-zA-Z0-9\s]{1,50}$/.test(note.title)) {
+			Alert.alert('Invalid Title', 'Title must be alphanumeric and under 50 characters.');
 			return;
 		}
+
+		if (!/^[0-9+\-*/().\s]+$/.test(note.text)) {
+			Alert.alert('Invalid Equation', 'Equation can only contain numbers and math operators.');
+			return;
+		}
+		// if (note.title === '' || note.text === '') {
+		// 	Alert.alert('Error', 'Title and equation cannot be empty.');
+		// 	return;
+		// }
 
 		this.setState({ 
 			notes: this.state.notes.concat(note),

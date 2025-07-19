@@ -76,11 +76,13 @@ export default function Login(props: TProps) {
 				onChangeText={setUsername}
 				placeholder="Username"
 			/>
+			{/* Added 'secureTextEntry' to follow UX/UI security norms */}
 			<TextInput
 				style={styles.password}
 				value={password}
 				onChangeText={setPassword}
 				placeholder="Password"
+				secureTextEntry
 			/>
 			<Button title="Login" onPress={login} />
 		</View>
